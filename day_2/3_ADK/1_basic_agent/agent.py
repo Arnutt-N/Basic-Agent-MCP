@@ -28,7 +28,7 @@ def add_to_cart(menu: str):
     return "OK"
 
 
-root_agent = Agent(
+neko_restaurant_agent = Agent(
     name="neko_restaurant_agent",
     model=model,
     description="Neko restaurant agent",
