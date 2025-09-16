@@ -52,16 +52,6 @@ Instructor: Punsiri Boonyakiat
 
 ### Flow Diagram
 
-```mermaid
-graph LR
-    U[ผู้ใช้ (User)] -->|ข้อความ| M[Manager Agent (Neko)]
-    M -->|ถามข่าว| N[News Analyst Agent]
-    M -->|ขอเรื่องตลก| J[Joke Agent]
-    N --> M
-    J --> M
-    M -->|คำตอบ| U
-```
-
 ---
 
 ## 4. Agent-to-Agent (A2A)
