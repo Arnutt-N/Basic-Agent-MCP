@@ -1,0 +1,14 @@
+langgraph
+langchain
+langchain-google-genai
+langchain-mcp-adapters 
+anyio 
+python-dotenv
+networkx 
+matplotlib
+line-bot-sdk
+fastapi
+uvicorn
+pymongo
+mcp
+notebook
