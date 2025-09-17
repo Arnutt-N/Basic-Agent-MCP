@@ -1,0 +1,10 @@
+langgraph
+langchain
+langchain-google-genai
+anyio 
+python-dotenv
+line-bot-sdk
+fastapi
+uvicorn
+pymongo
+notebook

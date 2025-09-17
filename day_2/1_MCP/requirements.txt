@@ -1,0 +1,12 @@
+langgraph
+langchain
+langchain-google-genai
+langchain-mcp-adapters 
+anyio 
+python-dotenv
+line-bot-sdk
+geopy
+fastapi
+uvicorn
+pymongo
+mcp
