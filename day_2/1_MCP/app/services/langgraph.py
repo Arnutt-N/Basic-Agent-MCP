@@ -1,6 +1,8 @@
 # app/services/langgraph.py
 from __future__ import annotations
 import json, time
+from bson import ObjectId
+
 from typing import Dict, List, Annotated
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
@@ -13,11 +15,14 @@ from langchain_core.tools import BaseTool
 from app.config import settings
 from app.services.mcp import get_mcp_tools
 from app.db.repositories import save_message
+from app.tools.time_tool import get_time
+from app.tools.weather_tool import get_weather_forecast
 
 # NEW: the graph state explicitly includes uid
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
     uid: str
+    conversation_id: ObjectId
 
 def build_prompt(new_user_text: str, history_docs: list[dict]=[]) -> List[BaseMessage]:
     msgs: List[BaseMessage] = [SystemMessage(
@@ -45,6 +50,8 @@ async def get_agent_graph():
     except Exception:
         tools = []
 
+    tools = tools + [get_time, get_weather_forecast]
+
     tools_by_name = {t.name: t for t in tools}
     model_with_tools = model.bind_tools(tools)
 
@@ -54,6 +61,8 @@ async def get_agent_graph():
 
     async def call_tools(state: AgentState):
         uid = state["uid"]  # ← now always present
+        conversation_id = state["conversation_id"]
+
         last = state["messages"][-1]
         if not isinstance(last, AIMessage) or not getattr(last, "tool_calls", None):
             return {"messages": []}
@@ -91,6 +100,7 @@ async def get_agent_graph():
                 uid=uid,
                 role="tool",
                 text=out_text[:8000],
+                conversation_id=conversation_id,
                 meta={
                     "tool_name": name,
                     "args": args,

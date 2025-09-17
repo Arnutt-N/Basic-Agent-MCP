@@ -50,6 +50,7 @@ async def save_message(
     meta: dict[str, Any] | None = None,
 ) -> str:
     db = get_db()
+    now = now_utc()
     doc = {
         "uid": uid,
         "role": role,
@@ -60,6 +61,21 @@ async def save_message(
         "meta": meta or {},
     }
     res = await db["messages"].insert_one(doc)
+
+    if conversation_id:
+        await db["conversations"].update_one(
+            {"_id": conversation_id},
+            {
+                "$set": {
+                    "updated_at": now,
+                    "last_message_at": now,
+                    "last_role": role,
+                    "last_text": text[:512],
+                },
+                "$inc": {"message_count": 1},
+            },
+        )
+
     return str(res.inserted_id)
 
 async def get_last_messages(uid: str, n_latest: int) -> List[dict]:
@@ -67,3 +83,29 @@ async def get_last_messages(uid: str, n_latest: int) -> List[dict]:
     cursor = db["messages"].find({"uid": uid}).sort("ts", 1)
     docs = await cursor.to_list(length=1000)
     return docs[-n_latest:] if len(docs) > n_latest else docs
+
+async def get_or_create_open_conversation(uid: str, *, title: str | None = None) -> ObjectId:
+    """Return the most recent open conversation for a uid; create if none."""
+    db = get_db()
+    doc = await db["conversations"].find_one(
+        {"uid": uid, "status": "open"},
+        sort=[("updated_at", -1)]
+    )
+    if doc:
+        return doc["_id"]
+
+    now = now_utc()
+    res = await db["conversations"].insert_one({
+        "uid": uid,
+        "title": title or "Default thread",
+        "status": "open",
+        "channel": "line",
+        "created_at": now,
+        "updated_at": now,
+        "last_message_at": None,
+        "last_role": None,
+        "last_text": None,
+        "message_count": 0,
+        "meta": {},
+    })
+    return res.inserted_id

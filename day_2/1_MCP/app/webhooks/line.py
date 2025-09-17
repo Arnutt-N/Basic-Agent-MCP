@@ -1,4 +1,5 @@
 # app/webhooks/line.py
+from bson import ObjectId
 from fastapi import APIRouter, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 
@@ -8,7 +9,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from app.config import settings
 from app.utils.line_sig import verify_line_signature
 from app.utils.time import to_dt_from_ms
-from app.db.repositories import upsert_user_profile, get_last_messages, save_message
+from app.db.repositories import upsert_user_profile, get_last_messages, save_message, get_or_create_open_conversation
 from app.services.langgraph import build_prompt, get_agent_graph
 
 router = APIRouter()
@@ -31,7 +32,10 @@ async def webhook(request: Request, x_line_signature: str = Header(None)):
             uid = event.source.user_id
             user_text = (event.message.text or "").strip()
             ts = to_dt_from_ms(getattr(event, "timestamp", None))
-            await save_message(uid, "user", user_text, ts=ts)
+
+            conversation_id: ObjectId = await get_or_create_open_conversation(uid)
+
+            await save_message(uid, "user", user_text, ts=ts, conversation_id=conversation_id)
             
             try:
                 prof = _line_bot_api.get_profile(uid)  # sync SDK call
@@ -64,14 +68,14 @@ async def webhook(request: Request, x_line_signature: str = Header(None)):
 
             graph = await get_agent_graph()      # <— NEW: get (tool-capable) graph
             try:
-                out_state = await graph.ainvoke({"messages": lc_messages, "uid": uid})
+                out_state = await graph.ainvoke({"messages": lc_messages, "uid": uid, "conversation_id": conversation_id})
                 ai_msg = out_state["messages"][-1]
                 reply_text = getattr(ai_msg, "content", str(ai_msg))
             except Exception as e:
                 reply_text = f"Sorry, I hit an error running the model: {e}"
 
             
-            await save_message(uid, "assistant", reply_text)
+            await save_message(uid, "assistant", reply_text, conversation_id=conversation_id)
             try:
                 _line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text[:5000]))
             except Exception:
