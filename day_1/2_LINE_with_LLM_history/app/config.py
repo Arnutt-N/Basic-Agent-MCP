@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     LINE_CHANNEL_ACCESS_TOKEN: str
     MONGO_URI: str
     GEMINI_MODEL: str = "google_genai:gemini-2.0-flash"
-    N_LATEST: int = 2 # Chat History n_latest
+    N_LATEST: int = 10 # Chat History n_latest
     
     GOOGLE_API_KEY: str | None = None
 

@@ -9,4 +9,5 @@ geopy
 fastapi
 uvicorn
 pymongo
+motor
 mcp
