@@ -40,9 +40,9 @@ async def get_agent_graph():
 
     async def call_model(state: AgentState):
         resp = await model_with_tools.ainvoke(state["messages"])
-        return {"messages": [resp]}  # uid is preserved automatically
+        return {"messages": [resp]}
 
-    builder = StateGraph(AgentState)  # ← use our custom state
+    builder = StateGraph(AgentState)
     builder.add_node("call_model", call_model)
     builder.add_edge(START, "call_model")
 

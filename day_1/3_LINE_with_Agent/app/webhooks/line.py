@@ -34,7 +34,7 @@ async def webhook(request: Request, x_line_signature: str = Header(None)):
             await save_message(uid, "user", user_text, ts=ts)
             
             try:
-                prof = _line_bot_api.get_profile(uid)  # sync SDK call
+                prof = _line_bot_api.get_profile(uid)
 
                 profile_dict = {
                     "display_name": getattr(prof, "display_name", None),
@@ -62,7 +62,7 @@ async def webhook(request: Request, x_line_signature: str = Header(None)):
             history = await get_last_messages(uid, settings.N_LATEST)
             lc_messages = build_prompt(user_text, history)
 
-            graph = await get_agent_graph()      # <— NEW: get (tool-capable) graph
+            graph = await get_agent_graph()
             try:
                 out_state = await graph.ainvoke({"messages": lc_messages, "uid": uid})
                 ai_msg = out_state["messages"][-1]

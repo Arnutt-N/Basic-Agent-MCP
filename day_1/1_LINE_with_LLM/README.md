@@ -29,8 +29,8 @@ You can run it locally (by cloning this repo) or directly in **GitHub Codespaces
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/yourusername/LINE-Gemini-Chatbot.git
-   cd LINE-Gemini-Chatbot
+   git clone https://github.com/ro-witthawin/Basic-Agent-MCP.git
+   cd Basic-Agent-MCP
    ```
 
 2. Create and activate a Python environment (Python 3.8+ required):

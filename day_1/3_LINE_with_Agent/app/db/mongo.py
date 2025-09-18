@@ -12,5 +12,4 @@ def get_client() -> AsyncIOMotorClient:
 
 def get_db():
     client = get_client()
-    # If your URI includes the db name, this returns it; otherwise set it explicitly
     return client["chat"]

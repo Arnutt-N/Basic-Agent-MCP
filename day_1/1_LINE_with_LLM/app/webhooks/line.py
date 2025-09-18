@@ -32,7 +32,7 @@ async def webhook(request: Request, x_line_signature: str = Header(None)):
             
             lc_messages = build_prompt(user_text)
 
-            graph = await get_agent_graph()      # <— NEW: get (tool-capable) graph
+            graph = await get_agent_graph()
             try:
                 out_state = await graph.ainvoke({"messages": lc_messages, "uid": uid})
                 ai_msg = out_state["messages"][-1]

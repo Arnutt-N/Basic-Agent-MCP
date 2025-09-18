@@ -15,7 +15,6 @@ from app.db.repositories import save_message
 from app.tools.weather_tool import get_weather_forecast
 from app.tools.time_tool import get_time
 
-# NEW: the graph state explicitly includes uid
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
     uid: str
@@ -41,10 +40,6 @@ async def get_agent_graph():
 
     model = init_chat_model(settings.GEMINI_MODEL, api_key=settings.GOOGLE_API_KEY)
 
-    # try:
-    #     tools: List[BaseTool] = await get_mcp_tools()
-    # except Exception:
-    #     tools = []
     tools = [get_weather_forecast, get_time]
 
     tools_by_name = {t.name: t for t in tools}
@@ -52,10 +47,10 @@ async def get_agent_graph():
 
     async def call_model(state: AgentState):
         resp = await model_with_tools.ainvoke(state["messages"])
-        return {"messages": [resp]}  # uid is preserved automatically
+        return {"messages": [resp]}
 
     async def call_tools(state: AgentState):
-        uid = state["uid"]  # ← now always present
+        uid = state["uid"]
         last = state["messages"][-1]
         if not isinstance(last, AIMessage) or not getattr(last, "tool_calls", None):
             return {"messages": []}
@@ -88,7 +83,6 @@ async def get_agent_graph():
 
             out_text = _txt(output)
 
-            # LOG tool call to MongoDB
             await save_message(
                 uid=uid,
                 role="tool",
@@ -112,7 +106,7 @@ async def get_agent_graph():
         last = state["messages"][-1]
         return "call_tools" if isinstance(last, AIMessage) and getattr(last, "tool_calls", None) else END
 
-    builder = StateGraph(AgentState)  # ← use our custom state
+    builder = StateGraph(AgentState)
     builder.add_node("call_model", call_model)
     builder.add_node("call_tools", call_tools)
     builder.add_edge(START, "call_model")
