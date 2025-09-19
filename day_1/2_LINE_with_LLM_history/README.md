@@ -30,7 +30,7 @@ You can run it locally (by cloning this repo) or directly in **GitHub Codespaces
 
    ```bash
    git clone https://github.com/ro-witthawin/Basic-Agent-MCP.git
-   cd Basic-Agent-MCP
+   cd Basic-Agent-MCP/day_1/2_LINE_with_LLM_history
    ```
 
 2. Create and activate a Python environment (Python 3.8+ required):

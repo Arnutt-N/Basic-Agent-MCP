@@ -15,8 +15,6 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str | None = None
 
     SYSTEM_PROMPT: str = system_prompt
-
-    MCP_GOOGLEMAP_URL: str
     
     model_config = SettingsConfigDict(
         env_file=".env",
