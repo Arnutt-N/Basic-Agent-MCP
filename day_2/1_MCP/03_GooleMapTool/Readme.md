@@ -15,7 +15,7 @@ Setup your variable
 ```
 mcp-proxy \
   --host 0.0.0.0 \
-  --port 8080 \
+  --port 3000 \
   --pass-environment \
   --allow-origin "*" \
   -- docker run -i --rm \
@@ -26,7 +26,7 @@ mcp-proxy \
 !!! Public Port !!!
 
 Finally this is your endpoint. Don't forget add path `/sse` to your endpoint
-`http://YOUR_END_POINT>/sse`
+`http://YOUR_END_POINT/sse`
 
 ## Reference
 https://github.com/modelcontextprotocol/servers-archived/tree/main/src/google-maps

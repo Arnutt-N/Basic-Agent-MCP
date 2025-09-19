@@ -1,0 +1,4 @@
+anyio 
+python-dotenv
+fastmcp
+uvicorn
