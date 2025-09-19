@@ -29,7 +29,7 @@ This workshop shows how to build and run a **Model Context Protocol (MCP) server
 
    ```bash
    git clone https://github.com/ro-witthawin/Basic-Agent-MCP.git
-   cd Basic-Agent-MCP/day_1/3_LINE_with_Agent
+   cd Basic-Agent-MCP/day_2/1_MCP/01_FastMCP
    ```
 
 2. Create and activate a Python environment (Python 3.8+ required):
@@ -58,7 +58,7 @@ This workshop shows how to build and run a **Model Context Protocol (MCP) server
 
 2. Open `.env` and set the following values:
 
-    * `MCP_PORT` → Port for the FastMCP HTTP server to listen (Recommend 7000)
+    * `MCP_PORT` → Port for the FastMCP HTTP server to listen (Default 7000)
 
 ---
 
