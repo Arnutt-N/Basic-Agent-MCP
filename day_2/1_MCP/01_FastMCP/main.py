@@ -1,11 +1,12 @@
 from fastmcp import FastMCP
 from pydantic import BaseModel, Field
 from datetime import datetime, timedelta
-from typing import Literal
+from dotenv import load_dotenv
 
-import anyio
+import os 
 
-mcp = FastMCP(name="AsyncDemo")
+load_dotenv()
+mcp = FastMCP(name="FastMCP-Time_Tool")
 
 # Input schema
 class TimeQueryInput(BaseModel):
@@ -32,4 +33,4 @@ def get_time(query: str):
         return {"error": f"Unknown time query '{query}'. Use 'today', 'now', 'yesterday', or 'tomorrow'."}
 
 if __name__ == "__main__":
-    mcp.run()
+    mcp.run(transport="http", host="0.0.0.0", port=int(os.getenv("PORT_MCP")))
