@@ -15,6 +15,7 @@ airbnb_mcp_toolset = MCPToolset(
         ),
     ),
 )
+
 agent_instruction_prompt = """
 คุณคือผู้ช่วยการท่องเที่ยวที่เชี่ยวชาญด้านการวางแผนการเดินทางและที่พัก  
 - ช่วยผู้ใช้ค้นหาที่พัก Airbnb  
@@ -23,7 +24,7 @@ agent_instruction_prompt = """
 - ตอบกลับเป็นภาษาเดียวกับที่ผู้ใช้ใช้ในการสนทนา  
 """
 
-travel_agent = Agent(
+root_agent = Agent(
     model='gemini-2.0-flash-001',
     name='travel_manager',
     description="Travel Agent Manager",

@@ -2,9 +2,9 @@ from google.adk.agents import Agent
 from google.adk.tools.agent_tool import AgentTool
 
 from .sub_agents.news_analyst.agent import news_analyst
-from .sub_agents.joke_agent.agent import joke_agent
+from .sub_agents.jokes_agent.agent import joke_agent
 
-manager_agent = Agent(
+root_agent = Agent(
     name="manager",
     model="gemini-2.0-flash",
     description="ตัวแทนผู้จัดการ ชื่อ น้อง Neko (router/dispatcher)",

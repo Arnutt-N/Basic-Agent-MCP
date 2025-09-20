@@ -26,27 +26,6 @@ news_analyst = Agent(
     """,
     tools=[google_search, get_current_time],
 )
-
-
-skill = AgentSkill(
-    id='get_exchange_rate',
-    name='Currency Exchange Rates Tool',
-    description='Helps with exchange values between various currencies',
-    tags=['currency conversion', 'currency exchange'],
-    examples=['What is exchange rate between USD and GBP?'],
-)
-Then as part of the AgentCard it will list the agent's skills and capabilities alongside additional details like input and output modes that the agent can handle:
-
-
+# Then as part of the AgentCard it will list the agent's skills and capabilities alongside additional details like input and output modes that the agent can handle:
 # A2A Agent Card definition
-agent_card = AgentCard(
-    name='Currency Agent',
-    description='Helps with exchange rates for currencies',
-    url=f'http://{host}:{port}/',
-    version='1.0.0',
-    defaultInputModes=["text"],
-    defaultOutputModes=["text"],
-    capabilities=AgentCapabilities(streaming=True),
-    skills=[skill],
-)
 a2a_app = to_a2a(news_analyst, port=8001)
