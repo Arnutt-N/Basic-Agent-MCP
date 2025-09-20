@@ -15,7 +15,6 @@ from langchain_core.tools import BaseTool
 from app.config import settings
 from app.services.mcp import get_mcp_tools
 from app.db.repositories import save_message
-from app.tools.time_tool import get_time
 from app.tools.weather_tool import get_weather_forecast
 
 # NEW: the graph state explicitly includes uid
@@ -50,7 +49,7 @@ async def get_agent_graph():
     except Exception:
         tools = []
 
-    tools = tools + [get_time, get_weather_forecast]
+    tools = tools + [get_weather_forecast]
 
     tools_by_name = {t.name: t for t in tools}
     model_with_tools = model.bind_tools(tools)

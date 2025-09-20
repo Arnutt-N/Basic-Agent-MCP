@@ -15,7 +15,11 @@ def _get_client() -> MultiServerMCPClient:
         _client = MultiServerMCPClient({
             "GoogleMap": {
                 "url": settings.MCP_GOOGLEMAP_URL,           # e.g. http://mcp-proxy:9090/mcp
-                "transport": "streamable_http",          # matches proxy/server config
+                "transport": "sse",          # matches proxy/server config
+            },
+            "FastMCP": {
+                "url": settings.MCP_CUSTOMFASTMCP_URL,
+                "transport": "streamable_http",
             }
         })
     return _client

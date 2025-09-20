@@ -16,6 +16,7 @@ class Settings(BaseSettings):
 
     SYSTEM_PROMPT: str = system_prompt
 
+    MCP_CUSTOMFASTMCP_URL: str | None = None
     MCP_GOOGLEMAP_URL: str
     
     model_config = SettingsConfigDict(
