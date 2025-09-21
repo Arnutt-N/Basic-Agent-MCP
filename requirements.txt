@@ -16,3 +16,4 @@ mcp
 notebook
 google-genai
 google-adk==1.14.1
+google-adk[a2a]
