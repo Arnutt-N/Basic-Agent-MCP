@@ -1,1 +1,1 @@
-# Basic-Agent-MCP
+# RAG - Retrival Augmented Generation
