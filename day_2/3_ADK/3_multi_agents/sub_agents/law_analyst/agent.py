@@ -2,7 +2,7 @@ from google.adk.agents import Agent
 
 
 law_analyst = Agent(
-    name="policy_analyst",
+    name="law_analyst",
     model="gemini-2.0-flash",
     description="Agent สำหรับวิเคราะห์นโยบาย กฎหมาย และผลกระทบต่อเศรษฐกิจและสังคม",
     instruction="""
