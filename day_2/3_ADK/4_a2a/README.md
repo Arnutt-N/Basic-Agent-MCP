@@ -6,6 +6,12 @@ cd  day_2/3_ADK/4_a2a/remote_agent/travel_manager
 uvicorn agent:a2a_app --port 8001 --reload --env-file .env
 ```
 
+To check AI Agent Card
+```
+://YOUR_CODESPACE_LINK/.well-known/agent.json
+```
+
+
 To Start ADK in Local Agent
 ```
 cd day_2/3_ADK
